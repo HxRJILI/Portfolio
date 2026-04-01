@@ -1,840 +1,855 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Houssam Rjili - Machine Learning Engineer</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Houssam Rjili — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F4F4;
+    --bg2: #EFEFEF;
+    --white: #FFFFFF;
+    --text: #2E2E2E;
+    --text-light: #6B6B6B;
+    --accent: #4A90E2;
+    --accent-dark: #2F6FBF;
+    --accent-pale: rgba(74,144,226,0.10);
+    --border: rgba(46,46,46,0.10);
+    --shadow: 0 4px 32px rgba(74,144,226,0.08);
+    --radius: 16px;
+    --mono: 'JetBrains Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+  ::selection { background: var(--accent); color: #fff; }
 
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(244,244,244,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--serif); font-size: 1.3rem;
+    color: var(--text); text-decoration: none; letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans); font-size: 0.85rem; font-weight: 500;
+    color: var(--text-light); text-decoration: none;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent) !important; color: #fff !important;
+    padding: 0.45rem 1.2rem; border-radius: 50px;
+    font-size: 0.8rem !important; transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--accent-dark) !important; transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+  .mobile-menu {
+    display: none; position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--white); z-index: 99;
+    padding: 1.5rem 5%; border-bottom: 1px solid var(--border);
+    flex-direction: column; gap: 1rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-size: 1rem; color: var(--text); text-decoration: none; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
 
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
+  /* HERO */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 120px 5% 80px; position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.75rem; color: var(--accent);
+    background: var(--accent-pale); border: 1px solid rgba(74,144,226,0.2);
+    padding: 0.3rem 0.8rem; border-radius: 50px; margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before {
+    content: ''; width: 7px; height: 7px; background: var(--accent);
+    border-radius: 50%; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+  .hero-name {
+    font-family: var(--serif); font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05; letter-spacing: -0.03em; color: var(--text);
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-name em { color: var(--accent); font-style: italic; }
+  .hero-subtitle {
+    font-size: 1.1rem; font-weight: 300; color: var(--text-light);
+    margin: 1.2rem 0 2rem; max-width: 480px; line-height: 1.8;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 0.8rem 2rem; border-radius: 50px;
+    font-weight: 500; font-size: 0.9rem; text-decoration: none;
+    transition: all 0.2s; box-shadow: 0 4px 16px rgba(74,144,226,0.35);
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,144,226,0.40); }
+  .btn-outline {
+    border: 1.5px solid var(--border); color: var(--text); background: var(--white);
+    padding: 0.8rem 2rem; border-radius: 50px;
+    font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; animation: fadeUp 0.6s 0.4s ease both; }
+  .stat { text-align: left; }
+  .stat-num { font-family: var(--serif); font-size: 2rem; color: var(--text); line-height: 1; letter-spacing: -0.03em; }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4a5568;
-        }
+  .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.8s 0.4s ease both; }
+  .hero-card {
+    background: var(--white); border-radius: 24px; padding: 2.5rem;
+    width: 100%; max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(74,144,226,0.1);
+    position: relative;
+  }
+  .hero-avatar {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border-radius: 20px; display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 2rem; color: #fff;
+    margin-bottom: 1.2rem; letter-spacing: -0.05em;
+  }
+  .hero-card h3 { font-family: var(--serif); font-size: 1.4rem; letter-spacing: -0.02em; }
+  .hero-card p { font-size: 0.85rem; color: var(--text-light); margin-top: 0.2rem; }
+  .hero-card-divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    font-family: var(--mono); font-size: 0.7rem;
+    padding: 0.3rem 0.7rem; border-radius: 6px;
+    background: var(--bg); color: var(--text-light); border: 1px solid var(--border);
+  }
+  .chip.active { background: var(--accent-pale); color: var(--accent); border-color: rgba(74,144,226,0.25); }
+  .floating-badge {
+    position: absolute; background: var(--white); border-radius: 12px;
+    padding: 0.6rem 1rem; font-size: 0.75rem; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+  }
+  .floating-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+  .badge-1 { top: -20px; right: -20px; animation: float 3s ease-in-out infinite; }
+  .badge-2 { bottom: -15px; left: -15px; animation: float 3s 1.5s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .bg-blob { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; opacity: 0.5; }
+  .bg-blob-1 { width: 500px; height: 500px; background: rgba(74,144,226,0.08); top: -100px; right: -100px; }
+  .bg-blob-2 { width: 300px; height: 300px; background: rgba(74,144,226,0.05); bottom: 0; left: 10%; }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+  /* SECTIONS */
+  section { padding: 100px 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.8rem; }
+  .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+  .section-desc { font-size: 1rem; color: var(--text-light); max-width: 560px; line-height: 1.8; margin-bottom: 3.5rem; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
+  /* ABOUT */
+  #about { background: var(--white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5rem; align-items: start; }
+  .about-info-item { margin-bottom: 1.2rem; }
+  .about-info-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 0.2rem; }
+  .about-info-val { font-size: 0.95rem; font-weight: 500; }
+  .about-info-val a { color: var(--accent); text-decoration: none; }
+  .about-info-val a:hover { text-decoration: underline; }
+  .about-right p { font-size: 1.05rem; line-height: 1.85; color: var(--text); margin-bottom: 1.2rem; }
+  .about-highlight {
+    background: linear-gradient(135deg, var(--accent-pale), rgba(74,144,226,0.04));
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.5rem; border-radius: 0 12px 12px 0; margin: 1.5rem 0;
+    font-style: italic; color: var(--text);
+    font-family: var(--serif); font-size: 1.1rem; line-height: 1.6;
+  }
 
-        .nav-links a:hover {
-            color: #667eea;
-        }
+  /* EXPERIENCE */
+  #experience { background: var(--bg); }
+  .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .exp-card {
+    background: var(--white); border-radius: var(--radius);
+    padding: 2rem 2.5rem; border: 1px solid var(--border);
+    position: relative; transition: box-shadow 0.25s, transform 0.25s; overflow: hidden;
+  }
+  .exp-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent); opacity: 0; transition: opacity 0.25s;
+  }
+  .exp-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+  .exp-card:hover::before { opacity: 1; }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+  .exp-role { font-family: var(--serif); font-size: 1.25rem; letter-spacing: -0.02em; }
+  .exp-company { font-size: 0.9rem; color: var(--accent); font-weight: 500; margin-top: 0.15rem; }
+  .exp-date { font-family: var(--mono); font-size: 0.75rem; color: var(--text-light); background: var(--bg); padding: 0.3rem 0.8rem; border-radius: 50px; white-space: nowrap; }
+  .exp-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.75; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .exp-tag { font-family: var(--mono); font-size: 0.68rem; padding: 0.25rem 0.6rem; background: var(--accent-pale); color: var(--accent); border-radius: 4px; }
 
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            padding: 5rem 0;
-            text-align: center;
-            color: white;
-        }
+  /* PROJECTS */
+  #projects { background: var(--white); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+  .proj-card {
+    background: var(--bg); border-radius: var(--radius);
+    padding: 2rem; border: 1px solid var(--border);
+    transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
+  }
+  .proj-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); border-color: rgba(74,144,226,0.25); }
+  .proj-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem; font-size: 1.3rem;
+  }
+  .proj-title { font-family: var(--serif); font-size: 1.2rem; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  .proj-desc { font-size: 0.87rem; color: var(--text-light); line-height: 1.7; flex: 1; }
+  .proj-footer { margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .proj-tech { font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.5rem; background: var(--white); color: var(--text-light); border-radius: 4px; border: 1px solid var(--border); }
+  .proj-link { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.3rem; transition: gap 0.2s; white-space: nowrap; }
+  .proj-link:hover { gap: 0.6rem; }
+  .proj-featured { background: linear-gradient(135deg, #EFF6FF, #F4F4F4); border-color: rgba(74,144,226,0.2); }
+  .proj-badge { position: absolute; top: 1rem; right: 1rem; font-family: var(--mono); font-size: 0.65rem; background: var(--accent); color: #fff; padding: 0.2rem 0.5rem; border-radius: 4px; }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+  /* SKILLS */
+  #skills { background: var(--bg); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .skill-category { background: var(--white); border-radius: var(--radius); padding: 1.8rem; border: 1px solid var(--border); transition: box-shadow 0.2s; }
+  .skill-category:hover { box-shadow: var(--shadow); }
+  .skill-cat-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+  .skill-cat-icon { font-size: 1.3rem; }
+  .skill-cat-title { font-family: var(--serif); font-size: 1.1rem; letter-spacing: -0.02em; }
+  .skill-items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-item { font-size: 0.8rem; padding: 0.3rem 0.7rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text-light); transition: all 0.2s; }
+  .skill-item:hover { background: var(--accent-pale); color: var(--accent); border-color: rgba(74,144,226,0.3); }
 
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
+  /* CERTIFICATIONS */
+  #certifications { background: var(--white); }
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .cert-card { background: var(--bg); border-radius: 12px; padding: 1.2rem 1.5rem; border: 1px solid var(--border); transition: all 0.2s; display: flex; align-items: flex-start; gap: 0.8rem; }
+  .cert-card:hover { border-color: rgba(74,144,226,0.3); background: var(--accent-pale); }
+  .cert-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .cert-name { font-size: 0.85rem; font-weight: 500; line-height: 1.4; }
+  .cert-issuer { font-size: 0.75rem; color: var(--accent); margin-top: 0.2rem; }
 
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+  /* EDUCATION */
+  #education { background: var(--bg); }
+  .edu-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .edu-card { background: var(--white); border-radius: var(--radius); padding: 1.8rem 2.2rem; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap; transition: box-shadow 0.2s; }
+  .edu-card:hover { box-shadow: var(--shadow); }
+  .edu-degree { font-family: var(--serif); font-size: 1.2rem; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+  .edu-school { font-size: 0.9rem; color: var(--accent); font-weight: 500; }
+  .edu-date { font-family: var(--mono); font-size: 0.75rem; color: var(--text-light); background: var(--bg); padding: 0.3rem 0.8rem; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
 
-        .btn {
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+  /* LEADERSHIP */
+  #leadership { background: var(--white); }
+  .lead-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .lead-card { background: var(--bg); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--border); transition: all 0.2s; }
+  .lead-card:hover { box-shadow: var(--shadow); border-color: rgba(74,144,226,0.2); }
+  .lead-role { font-family: var(--serif); font-size: 1.1rem; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+  .lead-org { font-size: 0.85rem; color: var(--accent); font-weight: 500; margin-bottom: 0.3rem; }
+  .lead-period { font-family: var(--mono); font-size: 0.72rem; color: var(--text-light); margin-bottom: 1rem; }
+  .lead-points { list-style: none; margin-top: 0.7rem; }
+  .lead-points li { font-size: 0.85rem; color: var(--text-light); padding: 0.2rem 0; padding-left: 1.2rem; position: relative; }
+  .lead-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
 
-        .btn-primary {
-            background: white;
-            color: #667eea;
-        }
+  /* CONTACT */
+  #contact { background: var(--text); color: var(--white); }
+  #contact .section-label { color: rgba(74,144,226,0.9); }
+  #contact .section-title { color: #fff; }
+  #contact .section-desc { color: rgba(255,255,255,0.5); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+  .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1.2rem 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; text-decoration: none; color: rgba(255,255,255,0.8); transition: all 0.2s; }
+  .contact-link:hover { background: rgba(74,144,226,0.15); border-color: rgba(74,144,226,0.4); color: #fff; transform: translateX(4px); }
+  .contact-link-icon { font-size: 1.1rem; width: 20px; text-align: center; }
+  .contact-link-text { font-size: 0.9rem; }
+  .contact-link-label { font-size: 0.7rem; opacity: 0.5; }
+  .contact-tagline { font-family: var(--serif); font-size: 2.5rem; letter-spacing: -0.03em; line-height: 1.15; color: #fff; margin-bottom: 1.5rem; }
+  .contact-tagline em { color: var(--accent); font-style: italic; }
+  .contact-note { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+  footer { background: #1a1a1a; padding: 2rem 5%; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+  footer a { color: var(--accent); text-decoration: none; }
 
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .btn-secondary:hover {
-            background: white;
-            color: #667eea;
-        }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
 
-        /* Sections */
-        .section {
-            padding: 5rem 0;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #2d3748;
-        }
-
-        /* About */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .skill-category {
-            background: #f7fafc;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .skill-category h3 {
-            color: #2d3748;
-            margin-bottom: 1rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill-tag {
-            background: #667eea;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-        }
-
-        /* Projects */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .project-title {
-            color: #2d3748;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .project-link {
-            color: #667eea;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-
-        .project-link:hover {
-            color: #4c51bf;
-        }
-
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .tech-tag {
-            background: #edf2f7;
-            color: #4a5568;
-            padding: 0.2rem 0.6rem;
-            border-radius: 10px;
-            font-size: 0.8rem;
-        }
-
-        .project-description {
-            color: #4a5568;
-            line-height: 1.6;
-        }
-
-        .project-highlights {
-            margin-top: 1rem;
-            list-style: none;
-        }
-
-        .project-highlights li {
-            color: #2d3748;
-            margin-bottom: 0.5rem;
-            padding-left: 1rem;
-            position: relative;
-        }
-
-        .project-highlights li:before {
-            content: "▸";
-            color: #667eea;
-            position: absolute;
-            left: 0;
-        }
-
-        /* Experience */
-        .experience-timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .timeline-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #667eea;
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .timeline-title {
-            color: #2d3748;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .timeline-date {
-            color: #667eea;
-            font-weight: 500;
-        }
-
-        .timeline-company {
-            color: #4a5568;
-            margin-bottom: 1rem;
-        }
-
-        /* Contact */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .contact-item {
-            padding: 1.5rem;
-            background: #f7fafc;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-2px);
-        }
-
-        .contact-icon {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        .contact-link {
-            color: #2d3748;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* Footer */
-        .footer {
-            background: #2d3748;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .timeline-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: white;
-            display: block;
-        }
-
-        .stat-label {
-            color: rgba(255,255,255,0.9);
-            margin-top: 0.5rem;
-        }
-    </style>
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .lead-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 70px 5%; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">Houssam Rjili</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <h1>Machine Learning Engineer</h1>
-            <p>Passionate AI Engineering Student specializing in Computer Vision, NLP, and Deep Learning. Building intelligent systems that make a difference.</p>
-            
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">3+</span>
-                    <div class="stat-label">Major AI Projects</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">50+</span>
-                    <div class="stat-label">Students Mentored</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">10+</span>
-                    <div class="stat-label">AI Certifications</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">5</span>
-                    <div class="stat-label">Programming Languages</div>
-                </div>
-            </div>
+<nav>
+  <a href="#hero" class="nav-logo">HR<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
 
-            <div class="cta-buttons">
-                <a href="#projects" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-            </div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#certifications" onclick="closeMobile()">Certifications</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">Available for opportunities</div>
+      <h1 class="hero-name">Houssam<br><em>Rjili</em></h1>
+      <p class="hero-subtitle">AI Engineering student at ENSAM Meknès — building intelligent systems that bridge research and real-world industrial impact. Specialized in ML, Computer Vision, NLP & Multi-Agent Systems.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View Projects →</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">10<span>+</span></div>
+          <div class="stat-label">Projects Built</div>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div>
-                    <img src="https://via.placeholder.com/300x400/667eea/ffffff?text=Your+Photo" alt="Houssam Rjili" style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                </div>
-                <div class="about-text">
-                    <p>I'm a passionate AI Engineering student at ENSAM Meknes with advanced expertise in Machine Learning, Computer Vision, and Natural Language Processing. My journey in AI began with curiosity about intelligent systems and has evolved into building real-world solutions that make a meaningful impact.</p>
-                    
-                    <p>As Head of the AI Cell at Gadz'IT Club, I've mentored over 50 students and organized educational initiatives including hackathons and workshops. I believe in combining strong theoretical foundations with hands-on practical experience to solve complex problems.</p>
-                    
-                    <p>My projects span multiple domains - from production forecasting systems using time series analysis to real-time security monitoring with multi-agent architectures. I'm passionate about applying AI to create solutions that benefit society and industry.</p>
-                </div>
-            </div>
-
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fas fa-brain"></i> Machine Learning</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">PyTorch</span>
-                        <span class="skill-tag">TensorFlow</span>
-                        <span class="skill-tag">Scikit-learn</span>
-                        <span class="skill-tag">OpenCV</span>
-                        <span class="skill-tag">Hugging Face</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Programming</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">C++</span>
-                        <span class="skill-tag">R</span>
-                        <span class="skill-tag">MATLAB</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-eye"></i> Specializations</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Computer Vision</span>
-                        <span class="skill-tag">NLP</span>
-                        <span class="skill-tag">Time Series</span>
-                        <span class="skill-tag">Deep Learning</span>
-                        <span class="skill-tag">Multi-Agent Systems</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Tools & Tech</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">Elasticsearch</span>
-                        <span class="skill-tag">REST APIs</span>
-                        <span class="skill-tag">JADE Framework</span>
-                    </div>
-                </div>
-            </div>
+        <div class="stat">
+          <div class="stat-num">12<span>+</span></div>
+          <div class="stat-label">Certifications</div>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="section" style="background: #f7fafc;">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                
-                <!-- OEE Forecasting Project -->
-                <div class="project-card">
-                    <div class="project-header">
-                        <div>
-                            <h3 class="project-title">Manufacturing OEE Forecasting System</h3>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/HxRJILI/OEE-FORECAST" class="project-link" target="_blank">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">LSTM</span>
-                        <span class="tech-tag">Time Series</span>
-                        <span class="tech-tag">ARIMA</span>
-                        <span class="tech-tag">RAG</span>
-                    </div>
-                    
-                    <p class="project-description">
-                        An intelligent forecasting system for manufacturing Overall Equipment Effectiveness (OEE) built for Mitsui Morocco's production line.
-                    </p>
-                    
-                    <ul class="project-highlights">
-                        <li>Developed 5 different forecasting models (ARIMA, SARIMA, LSTM, GRU, TCN)</li>
-                        <li>Implemented RAG advisory system using Sentence Transformers</li>
-                        <li>Achieved accurate 3-day OEE predictions with statistical validation</li>
-                        <li>Built comprehensive EDA and model comparison framework</li>
-                    </ul>
-                </div>
-
-                <!-- CyberSec Project -->
-                <div class="project-card">
-                    <div class="project-header">
-                        <div>
-                            <h3 class="project-title">CyberSecJadeWide</h3>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/HxRJILI/cyberSecJadeWide" class="project-link" target="_blank">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="project-tech">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">JADE Framework</span>
-                        <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">ELK Stack</span>
-                        <span class="tech-tag">Multi-Agent</span>
-                    </div>
-                    
-                    <p class="project-description">
-                        Real-time cybersecurity monitoring and response system built on JADE multi-agent framework with intelligent anomaly detection.
-                    </p>
-                    
-                    <ul class="project-highlights">
-                        <li>Multi-agent architecture for distributed security monitoring</li>
-                        <li>Real-time system metrics and network traffic analysis</li>
-                        <li>Automated response via email alerts and firewall integration</li>
-                        <li>SIEM logging integration with Elasticsearch and Kibana</li>
-                    </ul>
-                </div>
-
-                <!-- AI-Guard Project -->
-                <div class="project-card">
-                    <div class="project-header">
-                        <div>
-                            <h3 class="project-title">AI-Guard Facial Recognition</h3>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/HxRJILI/AI-GUARD" class="project-link" target="_blank">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="project-tech">
-                        <span class="tech-tag">PyTorch</span>
-                        <span class="tech-tag">Computer Vision</span>
-                        <span class="tech-tag">FaceNet</span>
-                        <span class="tech-tag">MTCNN</span>
-                        <span class="tech-tag">OpenCV</span>
-                    </div>
-                    
-                    <p class="project-description">
-                        Intelligent facial recognition security system for ENSAM Meknès to prevent unauthorized access using deep learning and computer vision.
-                    </p>
-                    
-                    <ul class="project-highlights">
-                        <li>MTCNN + FaceNet architecture with 25% improved robustness</li>
-                        <li>Multi-angle face enrollment system (front, left, right profiles)</li>
-                        <li>Real-time performance optimization (30+ FPS on edge devices)</li>
-                        <li>Enhanced LFW dataset with custom preprocessing techniques</li>
-                    </ul>
-                </div>
-
-                <!-- MATLAB ML Project -->
-                <div class="project-card">
-                    <div class="project-header">
-                        <div>
-                            <h3 class="project-title">MATLAB ML Algorithms Suite</h3>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="project-tech">
-                        <span class="tech-tag">MATLAB</span>
-                        <span class="tech-tag">GUI Design</span>
-                        <span class="tech-tag">Machine Learning</span>
-                        <span class="tech-tag">App Designer</span>
-                    </div>
-                    
-                    <p class="project-description">
-                        Interactive MATLAB application implementing various machine learning algorithms with intuitive GUI using App Designer.
-                    </p>
-                    
-                    <ul class="project-highlights">
-                        <li>User-friendly GUI for algorithm selection and parameter tuning</li>
-                        <li>Implementation of classic ML algorithms from scratch</li>
-                        <li>Real-time visualization of algorithm performance</li>
-                        <li>Educational tool for understanding ML concepts</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="stat">
+          <div class="stat-num">2<span>x</span></div>
+          <div class="stat-label">Industry Internships</div>
         </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="section">
-        <div class="container">
-            <h2 class="section-title">Leadership & Experience</h2>
-            <div class="experience-timeline">
-                
-                <div class="timeline-item">
-                    <div class="timeline-header">
-                        <div>
-                            <h3 class="timeline-title">Head of AI Cell & Organization Leader</h3>
-                            <p class="timeline-company">Gadz'IT Club, ENSAM Meknes</p>
-                        </div>
-                        <span class="timeline-date">Sept 2024 - Present</span>
-                    </div>
-                    <ul class="project-highlights">
-                        <li>Lead AI education initiatives for 50+ engineering students</li>
-                        <li>Developed comprehensive ML curriculum and learning pathways</li>
-                        <li>Organized "Escape Code" hackathon and "Gadz'IT Playground" workshop series</li>
-                        <li>Mentored students in ML projects and career development</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-header">
-                        <div>
-                            <h3 class="timeline-title">AI Venture Bootcamp Co-Organizer</h3>
-                            <p class="timeline-company">Graceful Deeds Team</p>
-                        </div>
-                        <span class="timeline-date">April 2025</span>
-                    </div>
-                    <ul class="project-highlights">
-                        <li>Co-organized AI literacy bootcamp for 50+ non-technical students</li>
-                        <li>Raised and donated 5,000+ MAD to support underprivileged families</li>
-                        <li>Bridged the gap between technical and non-technical communities</li>
-                        <li>Created social impact through technology education</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-header">
-                        <div>
-                            <h3 class="timeline-title">Engineering Student</h3>
-                            <p class="timeline-company">ENSAM Meknes</p>
-                        </div>
-                        <span class="timeline-date">Sept 2023 - Present</span>
-                    </div>
-                    <ul class="project-highlights">
-                        <li>Specializing in Artificial Intelligence & Data Technologies</li>
-                        <li>Coursework: Deep Learning, Computer Vision, NLP, Multi-Agent Systems</li>
-                        <li>Active in research projects and innovation initiatives</li>
-                        <li>Building strong foundation in mathematics and engineering principles</li>
-                    </ul>
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-badge badge-1"><span class="dot"></span>Open to Opportunities</div>
+      <div class="hero-card">
+        <div class="hero-avatar">HR</div>
+        <h3>Houssam Rjili</h3>
+        <p>AI Engineer · ENSAM Meknès</p>
+        <div class="hero-card-divider"></div>
+        <div class="skill-chips">
+          <span class="chip active">Machine Learning</span>
+          <span class="chip active">Computer Vision</span>
+          <span class="chip active">NLP</span>
+          <span class="chip active">MARL</span>
+          <span class="chip">RAG Systems</span>
+          <span class="chip">Time Series</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">Streamlit</span>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section" style="background: #f7fafc;">
-        <div class="container">
-            <h2 class="section-title">Let's Connect</h2>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3>Email</h3>
-                    <a href="mailto:rjilihoussam55@gmail.com" class="contact-link">rjilihoussam55@gmail.com</a>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fab fa-linkedin"></i>
-                    </div>
-                    <h3>LinkedIn</h3>
-                    <a href="https://linkedin.com/in/houssam-rjili-99266221b" class="contact-link" target="_blank">linkedin.com/in/houssam-rjili</a>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <h3>GitHub</h3>
-                    <a href="https://github.com/HxRJILI" class="contact-link" target="_blank">github.com/HxRJILI</a>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <h3>Phone</h3>
-                    <a href="tel:+212657932968" class="contact-link">+212 657 932 968</a>
-                </div>
-            </div>
+        <div class="hero-card-divider"></div>
+        <div style="display:flex; gap:0.8rem; font-size:0.8rem; color:var(--text-light);">
+          <span>📍 Meknès, Morocco</span>
+          <span>🌍 EN · FR · AR</span>
         </div>
-    </section>
+      </div>
+      <div class="floating-badge badge-2">🏆 ENSAM AI Cell Lead</div>
+    </div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Houssam Rjili. All rights reserved. | Built with passion for AI and innovation.</p>
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">// 01 — About</div>
+    <div class="about-grid">
+      <div class="reveal">
+        <h2 class="section-title">Who I<br><em style="font-style:italic;color:var(--accent)">Am</em></h2>
+        <div style="margin-top:2rem;">
+          <div class="about-info-item">
+            <div class="about-info-label">Email</div>
+            <div class="about-info-val"><a href="mailto:rjilihoussam55@gmail.com">rjilihoussam55@gmail.com</a></div>
+          </div>
+          <div class="about-info-item">
+            <div class="about-info-label">Phone</div>
+            <div class="about-info-val">+212 657 932 968</div>
+          </div>
+          <div class="about-info-item">
+            <div class="about-info-label">LinkedIn</div>
+            <div class="about-info-val"><a href="https://ma.linkedin.com/in/houssam-rjili-99266221b" target="_blank">houssam-rjili</a></div>
+          </div>
+          <div class="about-info-item">
+            <div class="about-info-label">GitHub</div>
+            <div class="about-info-val"><a href="https://github.com/HxRJILI" target="_blank">HxRJILI</a></div>
+          </div>
+          <div class="about-info-item">
+            <div class="about-info-label">Location</div>
+            <div class="about-info-val">Meknès, Morocco</div>
+          </div>
+          <div class="about-info-item">
+            <div class="about-info-label">Languages</div>
+            <div class="about-info-val">Arabic (Native) · English (Fluent) · French (Professional)</div>
+          </div>
+          <div class="about-info-item">
+            <div class="about-info-label">Interests</div>
+            <div class="about-info-val">Entrepreneurship · Consulting · Startups · Open Source</div>
+          </div>
         </div>
-    </footer>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p>I'm an AI & Data Technology engineering student at ENSAM Meknès, where I've spent the past few years obsessing over one question: <strong>how do we make AI not just work in notebooks, but genuinely solve problems in the real world?</strong></p>
+        <div class="about-highlight">"I don't just build AI solutions — I engineer systems that create measurable impact, from a 12% cost reduction at OCP Group to a 9.3% manufacturing optimization with multi-agent reinforcement learning."</div>
+        <p>My work spans the full spectrum of modern AI — from multi-agent reinforcement learning for industrial scheduling, to RAG-powered enterprise platforms, multimodal incident analysis systems, and real-time computer vision applications. I've deployed at industrial scale with OCP Group, one of Morocco's largest multinationals, and continue to push the frontier through open-source contributions and student-led AI education.</p>
+        <p>Beyond the code, I co-organized an AI literacy bootcamp for 50+ students, led the AI Cell at Gadz'IT Club, and contributed an oblique classifier to a widely-used Python decision tree package. I believe great engineers are also educators, communicators, and community builders.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">// 02 — Experience</div>
+    <h2 class="section-title">Professional<br>Experience</h2>
+    <p class="section-desc">Real-world engagements where I've applied AI to drive industrial and operational outcomes.</p>
+    <div class="exp-list">
 
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">AI & Data Technologies Intern</div>
+            <div class="exp-company">OCP Group — Jorf Lasfar Industrial Complex</div>
+          </div>
+          <span class="exp-date">Jul 2025 · 1 month</span>
+        </div>
+        <div class="exp-desc">
+          Conducted deep-dive analysis of Triple Super Phosphate (TSP) production across 3 units, mapping SCADA systems, lab data, and production metrics. Identified 4 critical production issues — including phosphoric acid density variability (1.55–1.68 g/cm³) causing P2O5 fluctuations and equipment failures causing 4–8h weekly downtime. Proposed and implemented solutions including standardized QC tests, predictive maintenance (revised pump intervals to 1,000h), and phosphate-specific SCADA recipes.
+          <br><br>
+          <strong>Key Deliverable — Fertilizer Formula Optimizer:</strong> Built a Python/Streamlit app with 3 optimization modes (Optimal, Personalized, All Combinations), real-time CSV ingredient database, multilingual UI (FR/EN), and SciPy HiGHS linear programming. Achieved <strong>12% average cost reduction</strong> (up to 15.7% on specialty NPK blends, 8.3% on 15-15-15), validated across 5 real OCP production cases with positive engineer feedback.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Python</span><span class="exp-tag">Streamlit</span><span class="exp-tag">SciPy LP</span>
+          <span class="exp-tag">SCADA</span><span class="exp-tag">Pandas/NumPy</span><span class="exp-tag">Predictive Maintenance</span><span class="exp-tag">Industrial AI</span>
+        </div>
+      </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+      <div class="exp-card reveal reveal-delay-1">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">AI Engineer Intern — Current</div>
+            <div class="exp-company">Strategy Consulting Firm · AI-Powered Sourcing Division</div>
+          </div>
+          <span class="exp-date">2025 – Present</span>
+        </div>
+        <div class="exp-desc">
+          Contributing to the design and development of an AI-Powered RFI (Request for Information) system for the perfume market — transforming a heavy manual sourcing task into a reusable strategic intelligence asset for the firm's client offering.
+          <br><br>
+          Building a system that maps the global landscape of market players, qualifies risks, identifies opportunities through factual data analysis, and constitutes a rich knowledge base with contact data and market intelligence — enabling fact-based decision making for client market studies.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">RAG</span><span class="exp-tag">NLP</span><span class="exp-tag">AI Agents</span>
+          <span class="exp-tag">Market Intelligence</span><span class="exp-tag">Knowledge Base</span>
+        </div>
+      </div>
 
-        // Observe project cards and timeline items
-        document.querySelectorAll('.project-card, .timeline-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
+    </div>
+  </div>
+</section>
 
-        // Add active nav link highlighting
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">// 03 — Projects</div>
+    <h2 class="section-title">Selected<br>Work</h2>
+    <p class="section-desc">A curated selection of projects spanning industrial AI, multi-agent systems, computer vision, and full-stack development.</p>
 
-    <style>
-        .nav-links a.active {
-            color: #667eea;
-            font-weight: 600;
-        }
-    </style>
+    <div class="projects-grid">
+
+      <div class="proj-card proj-featured reveal">
+        <span class="proj-badge">Featured</span>
+        <div class="proj-icon">⚙️</div>
+        <div class="proj-title">OEE Analytics & AI Advisor</div>
+        <div class="proj-desc">Full-stack manufacturing OEE platform with real-time monitoring, 30-day DL forecasting (Stacked RNN MAE 0.0591, Multi-Kernel CNN, WaveNet with dilated convolutions), and a RAG-powered AI advisor (Gemini API + PDF manuals). ISO 22400-compliant KPI engine with interactive Plotly dashboards and walk-forward validation.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">TensorFlow</span><span class="proj-tech">ARIMA</span><span class="proj-tech">RAG</span><span class="proj-tech">Streamlit</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card proj-featured reveal reveal-delay-1">
+        <span class="proj-badge">Featured</span>
+        <div class="proj-icon">🤖</div>
+        <div class="proj-title">MARL Flow-Shop Scheduler</div>
+        <div class="proj-desc">8 state-of-the-art MARL algorithms (MAPPO, QMIX, QPLEX, VDN, QTRAN, COMA, MAA2C, WQMIX) for Flexible Flow-Shop Scheduling on a 20-job, 3-stage PCB assembly line. MAPPO achieved <strong>36h makespan vs 39.7h SPT</strong> — 9.3% improvement over heuristics, near the 35h theoretical lower bound.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">PyTorch</span><span class="proj-tech">CTDE</span><span class="proj-tech">Gymnasium</span><span class="proj-tech">Dec-POMDP</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon">🏭</div>
+        <div class="proj-title">SmartClaim AI Platform</div>
+        <div class="proj-desc">8 Dockerized AI microservices for multimodal industrial incident management. Text/image/audio/documents → auto-classification (6 categories, 4 priorities), SLA breach prediction, VLM industrial scene analysis (Qwen 2.5 VL 7B), multi-tenant RAG (Qdrant), and automated response. Orchestrated via Next.js 15 API gateway with RBAC and RLS.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">Docker</span><span class="proj-tech">Gemini</span><span class="proj-tech">Qdrant</span><span class="proj-tech">Next.js 15</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-icon">👁️</div>
+        <div class="proj-title">AI Guard Surveillance System</div>
+        <div class="proj-desc">Real-time facial recognition surveillance for educational institutions. Dlib ResNet face recognition at ~30 FPS with >95% accuracy, MJPEG streaming, WebSocket real-time alerts (<100ms latency), 4-role RBAC (Admin/Surveillant/Guard/Service Admin), Docker Compose deployment, 95% pytest coverage.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">Dlib</span><span class="proj-tech">OpenCV</span><span class="proj-tech">Flask</span><span class="proj-tech">WebSocket</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon">🎓</div>
+        <div class="proj-title">SmartEdu AI Learning Platform</div>
+        <div class="proj-desc">Enterprise Spring Boot LMS with AI-powered adaptive quiz generation via RAG pipeline — course content is chunked, embedded, and fed to an LLM for contextual question generation. Full RBAC (Admin/Student), enrollment tracking, progress analytics, PostgreSQL production deployment with Docker profiles.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">Spring Boot 3.2</span><span class="proj-tech">RAG/LLM</span><span class="proj-tech">PostgreSQL</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-icon">🛡️</div>
+        <div class="proj-title">CyberSecJade Security Platform</div>
+        <div class="proj-desc">Distributed 3-agent JADE multi-agent system (MonitorAgent, AnalyzerAgent, ResponseAgent) for real-time cybersecurity monitoring. Statistical + ML anomaly detection with configurable sensitivity, automated email/SIEM/firewall responses, Docker + ELK stack, and Kibana dashboards.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">JADE 4.6</span><span class="proj-tech">Elasticsearch</span><span class="proj-tech">Docker</span><span class="proj-tech">Kibana</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon">📄</div>
+        <div class="proj-title">CVify — AI CV Generator</div>
+        <div class="proj-desc">Desktop PyQt application that generates tailored, ATS-friendly CVs using AI. Analyzes job descriptions and crafts a precisely matched CV with multiple professional templates — helping job seekers transform their backgrounds into high-conversion applications.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">PyQt</span><span class="proj-tech">AI/LLM</span><span class="proj-tech">Python</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-icon">🖼️</div>
+        <div class="proj-title">TkImage Studio</div>
+        <div class="proj-desc">Privacy-first desktop ML image dataset manager with 20+ transforms/filters, augmentation (mosaic/cutout/weather overlays), transform-aware bbox annotation sync, perceptual duplicate detection (imagehash), YOLO/JSON/ImageFolder exports with train-val-test splits. 100% local — no cloud uploads.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">Tkinter</span><span class="proj-tech">Pillow</span><span class="proj-tech">NumPy</span><span class="proj-tech">YOLO</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-icon">💻</div>
+        <div class="proj-title">TkLearn Studio</div>
+        <div class="proj-desc">Pure Python MVC Tkinter IDE for interactive GUI learning. Syntax-highlighted editor, live preview pane, real-time colored console, 4 built-in lessons (Label/Button/Entry/Grid), F5 instant execution. Zero external dependencies — an elegant, portable stdlib-only desktop application.</div>
+        <div class="proj-footer">
+          <div class="proj-stack"><span class="proj-tech">Python</span><span class="proj-tech">Tkinter/ttk</span><span class="proj-tech">MVC</span></div>
+          <a href="https://github.com/HxRJILI" target="_blank" class="proj-link">GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">// 04 — Skills</div>
+    <h2 class="section-title">Technical<br>Expertise</h2>
+    <p class="section-desc">A broad, deep toolkit built through hands-on projects, industry internships, and continuous learning.</p>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><span class="skill-cat-icon">🧠</span><span class="skill-cat-title">Machine Learning & AI</span></div>
+        <div class="skill-items">
+          <span class="skill-item">Supervised Learning</span><span class="skill-item">Unsupervised Learning</span>
+          <span class="skill-item">Reinforcement Learning</span><span class="skill-item">MARL / Dec-POMDP</span>
+          <span class="skill-item">Transfer Learning</span><span class="skill-item">Hyperparameter Tuning</span><span class="skill-item">Model Evaluation</span>
+        </div>
+      </div>
+      <div class="skill-category reveal reveal-delay-1">
+        <div class="skill-cat-header"><span class="skill-cat-icon">👁️</span><span class="skill-cat-title">Computer Vision</span></div>
+        <div class="skill-items">
+          <span class="skill-item">OpenCV</span><span class="skill-item">Dlib / ResNet</span><span class="skill-item">YOLO</span>
+          <span class="skill-item">Image Segmentation</span><span class="skill-item">Dataset Augmentation</span><span class="skill-item">VLM (Qwen 2.5 VL)</span>
+        </div>
+      </div>
+      <div class="skill-category reveal reveal-delay-2">
+        <div class="skill-cat-header"><span class="skill-cat-icon">💬</span><span class="skill-cat-title">NLP & Generative AI</span></div>
+        <div class="skill-items">
+          <span class="skill-item">RAG Systems</span><span class="skill-item">LLM Integration</span><span class="skill-item">Embeddings / Vector DB</span>
+          <span class="skill-item">Gemini API</span><span class="skill-item">spaCy / NLTK</span><span class="skill-item">Prompt Engineering</span><span class="skill-item">AI Agents</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><span class="skill-cat-icon">📈</span><span class="skill-cat-title">Time Series & Forecasting</span></div>
+        <div class="skill-items">
+          <span class="skill-item">RNN / LSTM</span><span class="skill-item">CNN (Multi-Kernel)</span><span class="skill-item">WaveNet (Dilated Conv)</span>
+          <span class="skill-item">ARIMA</span><span class="skill-item">Walk-forward Validation</span><span class="skill-item">TensorFlow / Keras</span>
+        </div>
+      </div>
+      <div class="skill-category reveal reveal-delay-1">
+        <div class="skill-cat-header"><span class="skill-cat-icon">⚡</span><span class="skill-cat-title">ML Frameworks & Tools</span></div>
+        <div class="skill-items">
+          <span class="skill-item">PyTorch</span><span class="skill-item">TensorFlow</span><span class="skill-item">Scikit-learn</span>
+          <span class="skill-item">SciPy</span><span class="skill-item">Pandas / NumPy</span><span class="skill-item">Matplotlib / Plotly</span><span class="skill-item">Gymnasium</span>
+        </div>
+      </div>
+      <div class="skill-category reveal reveal-delay-2">
+        <div class="skill-cat-header"><span class="skill-cat-icon">🏗️</span><span class="skill-cat-title">Backend & Infrastructure</span></div>
+        <div class="skill-items">
+          <span class="skill-item">Python (OOP/Modular)</span><span class="skill-item">Flask</span><span class="skill-item">Spring Boot 3.2</span>
+          <span class="skill-item">FastAPI</span><span class="skill-item">Docker / Compose</span><span class="skill-item">PostgreSQL</span><span class="skill-item">Qdrant</span><span class="skill-item">JADE Framework</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-header"><span class="skill-cat-icon">🌐</span><span class="skill-cat-title">Frontend & Apps</span></div>
+        <div class="skill-items">
+          <span class="skill-item">Streamlit</span><span class="skill-item">Next.js 15</span><span class="skill-item">Tailwind CSS</span>
+          <span class="skill-item">PyQt / Tkinter</span><span class="skill-item">Thymeleaf</span><span class="skill-item">shadcn/ui</span>
+        </div>
+      </div>
+      <div class="skill-category reveal reveal-delay-1">
+        <div class="skill-cat-header"><span class="skill-cat-icon">🔧</span><span class="skill-cat-title">DevOps & Engineering</span></div>
+        <div class="skill-items">
+          <span class="skill-item">Git / GitHub Actions</span><span class="skill-item">Docker Compose</span><span class="skill-item">Maven / pytest</span>
+          <span class="skill-item">ELK Stack</span><span class="skill-item">SCADA / IHM / PLC</span><span class="skill-item">Linux</span><span class="skill-item">Java (JDK 17)</span><span class="skill-item">R</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-inner">
+    <div class="section-label">// 05 — Certifications</div>
+    <h2 class="section-title">Learning &<br>Certifications</h2>
+    <p class="section-desc">Continuous learning through leading institutions — DeepLearning.AI, Google, IBM, and Vanderbilt University.</p>
+    <div class="certs-grid">
+      <div class="cert-card reveal"><span class="cert-icon">🤖</span><div><div class="cert-name">Machine Learning Specialization (3 courses)</div><div class="cert-issuer">DeepLearning.AI · Andrew Ng</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><span class="cert-icon">🧠</span><div><div class="cert-name">Deep Learning Specialization (5 courses)</div><div class="cert-issuer">DeepLearning.AI · Andrew Ng</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><span class="cert-icon">💬</span><div><div class="cert-name">NLP with Classification & Vector Spaces</div><div class="cert-issuer">DeepLearning.AI</div></div></div>
+      <div class="cert-card reveal"><span class="cert-icon">💬</span><div><div class="cert-name">NLP with Probabilistic Models</div><div class="cert-issuer">DeepLearning.AI</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><span class="cert-icon">⚡</span><div><div class="cert-name">AI Agents & Agentic AI Architecture in Python</div><div class="cert-issuer">Vanderbilt University</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><span class="cert-icon">⚡</span><div><div class="cert-name">AI Agents & Agentic AI with Python & Generative AI</div><div class="cert-issuer">Vanderbilt University</div></div></div>
+      <div class="cert-card reveal"><span class="cert-icon">🔒</span><div><div class="cert-name">Foundations of Cybersecurity</div><div class="cert-issuer">Google</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><span class="cert-icon">🔒</span><div><div class="cert-name">Play It Safe: Manage Security Risks</div><div class="cert-issuer">Google</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><span class="cert-icon">🔒</span><div><div class="cert-name">Connect & Protect: Networks and Network Security</div><div class="cert-issuer">Google</div></div></div>
+      <div class="cert-card reveal"><span class="cert-icon">🤝</span><div><div class="cert-name">Trustworthy Generative AI</div><div class="cert-issuer">Vanderbilt University</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><span class="cert-icon">💡</span><div><div class="cert-name">Prompt Engineering for ChatGPT</div><div class="cert-issuer">Vanderbilt University</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><span class="cert-icon">📊</span><div><div class="cert-name">SQL for Data Science & Introduction to R</div><div class="cert-issuer">IBM</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">// 06 — Education</div>
+    <h2 class="section-title">Academic<br>Background</h2>
+    <p class="section-desc" style="margin-bottom:2.5rem;">Rigorous engineering formation in AI and data technologies at one of Morocco's top grandes écoles d'ingénieurs.</p>
+    <div class="edu-list">
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-degree">Ingénieur d'État — Artificial Intelligence & Data Technology</div>
+          <div class="edu-school">ENSAM Meknès (École Nationale Supérieure d'Arts et Métiers)</div>
+        </div>
+        <span class="edu-date">2022 – Present</span>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <div>
+          <div class="edu-degree">Baccalauréat — Sciences Physiques</div>
+          <div class="edu-school">Lycée Tarik Ibn Ziad, Meknès</div>
+        </div>
+        <span class="edu-date">2019 – 2022</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership">
+  <div class="section-inner">
+    <div class="section-label">// 07 — Leadership & Community</div>
+    <h2 class="section-title">Beyond the<br>Code</h2>
+    <p class="section-desc">Engineering is more than building systems — it's teaching, organizing, and giving back to the community.</p>
+    <div class="lead-grid">
+      <div class="lead-card reveal">
+        <div class="lead-role">Head of AI Cell & Organization Leader</div>
+        <div class="lead-org">Gadz'IT Club, ENSAM Meknès</div>
+        <div class="lead-period">Sept 2024 – 2025</div>
+        <ul class="lead-points">
+          <li>Led AI education initiatives for 50+ engineering students</li>
+          <li>Developed comprehensive ML curriculum and learning pathways</li>
+          <li>Organized "Escape Code" hackathon & "Gadz'IT Playground" workshop series</li>
+          <li>Mentored students in ML projects and career development</li>
+        </ul>
+      </div>
+      <div class="lead-card reveal reveal-delay-1">
+        <div class="lead-role">Vice President & Technical Committee Leader</div>
+        <div class="lead-org">Gadz'IT Club, ENSAM Meknès</div>
+        <div class="lead-period">Sept 2025 – Jan 2026</div>
+        <ul class="lead-points">
+          <li>Oversaw club strategy and technical programs as VP</li>
+          <li>Led the technical committee driving all engineering initiatives</li>
+          <li>Guided a cross-functional team of student engineers</li>
+        </ul>
+      </div>
+      <div class="lead-card reveal">
+        <div class="lead-role">AI Venture Bootcamp Co-Organizer</div>
+        <div class="lead-org">Social Impact Initiative — Graceful Deeds Team</div>
+        <div class="lead-period">April 2025</div>
+        <ul class="lead-points">
+          <li>Co-organized AI literacy bootcamp for 50+ non-technical students</li>
+          <li>Raised and donated 5,000+ MAD to support underprivileged families</li>
+          <li>Bridged the gap between AI knowledge and social impact</li>
+        </ul>
+      </div>
+      <div class="lead-card reveal reveal-delay-1">
+        <div class="lead-role">Open Source Contributor</div>
+        <div class="lead-org">Python Decision Tree Package</div>
+        <div class="lead-period">2024 – Present</div>
+        <ul class="lead-points">
+          <li>Implemented oblique classifier for comprehensive decision tree Python package</li>
+          <li>Available via <code style="font-family:var(--mono);font-size:0.78rem;background:var(--white);padding:2px 6px;border-radius:4px;">pip install oblique-classifier-1</code></li>
+          <li>Contributing to the broader ML open-source ecosystem</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">// 08 — Contact</div>
+    <div class="contact-grid">
+      <div>
+        <h2 class="section-title">Let's<br><em style="color:var(--accent);font-style:italic">Connect</em></h2>
+        <p class="section-desc">Whether you have an opportunity, a project idea, or just want to talk AI — I'm always open to a good conversation.</p>
+        <div class="contact-links">
+          <a href="mailto:rjilihoussam55@gmail.com" class="contact-link">
+            <span class="contact-link-icon">✉️</span>
+            <div><div class="contact-link-text">rjilihoussam55@gmail.com</div><div class="contact-link-label">Email</div></div>
+          </a>
+          <a href="tel:+212657932968" class="contact-link">
+            <span class="contact-link-icon">📞</span>
+            <div><div class="contact-link-text">+212 657 932 968</div><div class="contact-link-label">Phone</div></div>
+          </a>
+          <a href="https://ma.linkedin.com/in/houssam-rjili-99266221b" target="_blank" class="contact-link">
+            <span class="contact-link-icon">🔗</span>
+            <div><div class="contact-link-text">linkedin.com/in/houssam-rjili</div><div class="contact-link-label">LinkedIn</div></div>
+          </a>
+          <a href="https://github.com/HxRJILI" target="_blank" class="contact-link">
+            <span class="contact-link-icon">💻</span>
+            <div><div class="contact-link-text">github.com/HxRJILI</div><div class="contact-link-label">GitHub</div></div>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="contact-tagline">Building AI that<br>creates real <em>impact</em>.</div>
+        <p class="contact-note">
+          Currently finishing my engineering degree at ENSAM Meknès while actively working on AI systems for industry. I'm interested in roles at the intersection of research and production — where elegant models meet real operational challenges.
+          <br><br>
+          Open to: full-time positions, internships, research collaborations, and consulting engagements in AI/ML.
+        </p>
+        <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+          <a href="mailto:rjilihoussam55@gmail.com" class="btn-primary">Send Message →</a>
+          <a href="https://github.com/HxRJILI" target="_blank" style="border-color:rgba(255,255,255,0.2); color:rgba(255,255,255,0.8); background:rgba(255,255,255,0.05); padding:0.8rem 2rem; border-radius:50px; font-weight:500; font-size:0.9rem; text-decoration:none; border:1.5px solid rgba(255,255,255,0.2); transition:all 0.2s;">View GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Houssam Rjili · AI Engineer · ENSAM Meknès · Built with care &amp; craft · <a href="https://github.com/HxRJILI" target="_blank">GitHub</a></p>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
 </body>
 </html>
